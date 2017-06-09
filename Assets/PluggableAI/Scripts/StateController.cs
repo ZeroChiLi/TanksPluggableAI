@@ -10,6 +10,7 @@ public class StateController : MonoBehaviour
     public State currentState;
     public EnemyStats enemyStats;
     public Transform eyes;
+    public State remainState;
 
 
     [HideInInspector]
@@ -20,6 +21,8 @@ public class StateController : MonoBehaviour
     public List<Transform> wayPointList;
     [HideInInspector]
     public int nextWayPotnt;
+    [HideInInspector]
+    public Transform chaseTarget;
 
     private bool aiActive;
 
@@ -60,7 +63,13 @@ public class StateController : MonoBehaviour
         }
     }
 
-
+    public void TransitionToState(State nextState)
+    {
+        if(nextState != remainState)
+        {
+            currentState = nextState;
+        }
+    }
 
 
 
