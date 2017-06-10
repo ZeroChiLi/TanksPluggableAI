@@ -7,25 +7,26 @@ using Complete;
 public class StateController : MonoBehaviour
 {
 
-    public State currentState;
-    public EnemyStats enemyStats;
-    public Transform eyes;
-    public State remainState;
+    public State currentState;                      //当前状态
+    public EnemyStats enemyStats;                   //敌人状态
+    public Transform eyes;                          //眼睛：拿来观察状态变化
+    public State remainState;                       //保持当前状态
 
 
     [HideInInspector]
-    public NavMeshAgent navMeshAgent;
+    public NavMeshAgent navMeshAgent;               //导航组件
     [HideInInspector]
-    public Complete.TankShooting tankShooting;
+    public Complete.TankShooting tankShooting;      //射击
     [HideInInspector]
-    public List<Transform> wayPointList;
+    public List<Transform> wayPointList;            //所有巡逻点
     [HideInInspector]
-    public int nextWayPotnt;
+    public int nextWayPotnt;                        //下一个巡逻点
     [HideInInspector]
-    public Transform chaseTarget;
+    public Transform chaseTarget;                   //追踪目标
+    [HideInInspector]
+    public float stateTimeElapsed;                  //状态变化时间间隔
 
-    private bool aiActive;
-
+    private bool aiActive;                          //AI是否有效
 
     void Awake()
     {
@@ -33,6 +34,7 @@ public class StateController : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
     }
 
+    //设置巡逻点还有是否设置AI并且是否激活导航
     public void SetupAI(bool aiActivationFromTankManager, List<Transform> wayPointsFromTankManager)
     {
         wayPointList = wayPointsFromTankManager;
@@ -51,7 +53,7 @@ public class StateController : MonoBehaviour
     {
         if (!aiActive)
             return;
-        currentState.UpdateState(this);
+        currentState.UpdateState(this);     //更新状态
     }
 
     private void OnDrawGizmos()
@@ -63,6 +65,7 @@ public class StateController : MonoBehaviour
         }
     }
 
+    //转换到下一个状态
     public void TransitionToState(State nextState)
     {
         if(nextState != remainState)
@@ -71,8 +74,16 @@ public class StateController : MonoBehaviour
         }
     }
 
+    //返回是否过了时间间隔
+    public bool CheckIfCountDownElapsed(float duration)
+    {
+        stateTimeElapsed += Time.deltaTime;
+        return (stateTimeElapsed >= duration);
+    }
 
-
-
+    private void OnExitState()
+    {
+        stateTimeElapsed = 0;
+    }
 
 }

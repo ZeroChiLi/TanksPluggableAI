@@ -11,7 +11,8 @@ public class LookDecision : Decision
         bool targetVisble = Look(controller);
         return targetVisble;
     }
-
+    
+    //巡逻检测
     private bool Look(StateController controller)
     {
         RaycastHit hit;

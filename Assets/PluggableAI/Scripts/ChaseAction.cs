@@ -9,6 +9,7 @@ public class ChaseAction : Action
         Chase(controller);
     }
 
+    //追踪目标
     private void Chase(StateController controller)
     {
         controller.navMeshAgent.destination = controller.chaseTarget.position;
