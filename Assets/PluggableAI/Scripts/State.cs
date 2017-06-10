@@ -32,13 +32,9 @@ public class State : ScriptableObject
             bool decisionSucceeded = transitions[i].decision.Decide(controller);
 
             if (decisionSucceeded)
-            {
                 controller.TransitionToState(transitions[i].trueState);
-            }
             else
-            {
                 controller.TransitionToState(transitions[i].falseState);
-            }
         }
     }
 

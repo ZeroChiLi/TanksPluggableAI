@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu (menuName = "PluggableAI/Decisions/Scan")]
-public class ScanDecision : Decision 
+[CreateAssetMenu(menuName = "PluggableAI/Decisions/Scan")]
+public class ScanDecision : Decision
 {
     public override bool Decide(StateController controller)
     {
-        bool noEnemyInSight =Scan(controller);
+        bool noEnemyInSight = Scan(controller);
         return noEnemyInSight;
     }
 
