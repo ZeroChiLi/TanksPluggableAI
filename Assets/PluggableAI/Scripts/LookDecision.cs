@@ -4,15 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu (menuName = "PluggableAI/Decisions/Patrol")]
-public class PatrolDecision : Decision 
+public class LookDecision : Decision 
 {
     public override bool Decide(StateController controller)
     {
-        bool targetVisble = Look(controller);
-        return targetVisble;
+        return Look(controller);
     }
     
-    //巡逻检测
+    //放射线检测
     private bool Look(StateController controller)
     {
         RaycastHit hit;
@@ -26,8 +25,6 @@ public class PatrolDecision : Decision
             return true;
         }
         else
-        {
             return false;
-        }
     }
 }

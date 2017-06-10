@@ -40,13 +40,9 @@ public class StateController : MonoBehaviour
         wayPointList = wayPointsFromTankManager;
         aiActive = aiActivationFromTankManager;
         if (aiActive)
-        {
             navMeshAgent.enabled = true;
-        }
         else
-        {
             navMeshAgent.enabled = false;
-        }
     }
 
     private void Update()
