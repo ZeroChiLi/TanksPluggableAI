@@ -12,7 +12,6 @@ public class StateController : MonoBehaviour
     public Transform eyes;                          //眼睛：拿来观察状态变化
     public State remainState;                       //保持当前状态
 
-
     [HideInInspector]
     public NavMeshAgent navMeshAgent;               //导航组件
     [HideInInspector]
@@ -20,18 +19,33 @@ public class StateController : MonoBehaviour
     [HideInInspector]
     public List<Transform> wayPointList;            //所有巡逻点
     [HideInInspector]
-    public int nextWayPotnt;                        //下一个巡逻点
+    public int nextWayPoint;                        //下一个巡逻点
     [HideInInspector]
     public Transform chaseTarget;                   //追踪目标
     [HideInInspector]
     public float stateTimeElapsed;                  //状态变化时间间隔
 
     private bool aiActive;                          //AI是否有效
+    private State startState;                       //初始状态，每次复活后重置
 
-    void Awake()
+    private void Awake()
     {
         tankShooting = GetComponent<Complete.TankShooting>();
         navMeshAgent = GetComponent<NavMeshAgent>();
+        startState = currentState;
+    }
+
+    private void Update()
+    {
+        if (!aiActive)
+            return;
+        currentState.UpdateState(this);             //更新状态
+    }
+
+    private void OnEnable()
+    {
+        currentState = startState;                  //复活的时候重置状态
+        nextWayPoint = Random.Range(0, wayPointList.Count);     //随即巡逻点
     }
 
     //设置巡逻点还有是否设置AI并且是否激活导航
@@ -44,14 +58,6 @@ public class StateController : MonoBehaviour
         else
             navMeshAgent.enabled = false;
     }
-
-    private void Update()
-    {
-        if (!aiActive)
-            return;
-        currentState.UpdateState(this);     //更新状态
-    }
-
     private void OnDrawGizmos()
     {
         if (currentState != null && eyes != null)
@@ -67,6 +73,7 @@ public class StateController : MonoBehaviour
         if(nextState != remainState)
         {
             currentState = nextState;
+            OnExitState();
         }
     }
 
