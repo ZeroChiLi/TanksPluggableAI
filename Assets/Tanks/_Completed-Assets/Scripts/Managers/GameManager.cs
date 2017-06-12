@@ -42,19 +42,23 @@ namespace Complete
         private void SpawnAllTanks()
         {
 			//Manually setup the player at index zero in the tanks array
-			m_Tanks[0].m_Instance =
-				Instantiate(m_TankPrefabs[0], m_Tanks[0].m_SpawnPoint.position, m_Tanks[0].m_SpawnPoint.rotation) as GameObject;
-			m_Tanks[0].m_PlayerNumber = 1;
-			m_Tanks[0].SetupPlayerTank();
+			//m_Tanks[0].m_Instance =
+			//	Instantiate(m_TankPrefabs[0], m_Tanks[0].m_SpawnPoint.position, m_Tanks[0].m_SpawnPoint.rotation) as GameObject;
+			//m_Tanks[0].m_PlayerNumber = 1;
+			//m_Tanks[0].SetupPlayerTank();
 
             // Setup the AI tanks
-            for (int i = 1; i < m_Tanks.Length; i++)
+            for (int i = 0; i < m_Tanks.Length; i++)
             {
                 // ... create them, set their player number and references needed for control.
                 m_Tanks[i].m_Instance =
 					Instantiate(m_TankPrefabs[i], m_Tanks[i].m_SpawnPoint.position, m_Tanks[i].m_SpawnPoint.rotation) as GameObject;
                 m_Tanks[i].m_PlayerNumber = i + 1;
-				m_Tanks[i].SetupAI(wayPointsForAI);
+
+                if (m_Tanks[i].isAI)
+                    m_Tanks[i].SetupAI(wayPointsForAI);
+                else
+                    m_Tanks[i].SetupPlayerTank(m_CameraControl);
             }
         }
 
